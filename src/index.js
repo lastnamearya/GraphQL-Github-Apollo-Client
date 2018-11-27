@@ -1,13 +1,14 @@
+import ApolloClient from 'apollo-boost';
+
 import 'dotenv/config';
 
-const userCredentials = { firstname: 'Jigyasu' };
-const userDetails = { nationality: 'India' };
-
-const user = {
-  ...userCredentials,
-  ...userDetails,
-};
-
-console.log(user);
-
-console.log(process.env.SOME_ENV_VARIABLE);
+const client = new ApolloClient({
+  uri: 'https://api.github.com/graphql',
+  request: operation => {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      },
+    });
+  },
+});
